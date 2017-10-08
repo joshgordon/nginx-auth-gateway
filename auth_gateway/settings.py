@@ -20,12 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'aq!y%+qfyq_8=k%gu_r%6peus(o0@cwsf4d47vu05oi$la6#h!'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'aq!y%+qfyq_8=k%gu_r%6peus(o0@cwsf4d47vu05oi$la6#h!')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.3.12.79', 'localhost']
+ALLOWED_HOSTS = ['10.3.12.79', 'localhost', 'auth-gateway.bluesmoke.network', '*']
 
 
 # Application definition
@@ -76,9 +76,14 @@ WSGI_APPLICATION = 'auth_gateway.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('POSTGRES_DATABASE', 'authgateway'),
+        'USER': os.environ.get('POSTGRES_USER', 'authgateway'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', '@utHR3lAy::4312'),
+        'HOST': os.environ.get('POSTGRES_HOST', 'postgres'),
+        'PORT': os.environ.get('POSTGRES_PORT', '5432'),
     }
+
 }
 
 
@@ -119,3 +124,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = './static'
