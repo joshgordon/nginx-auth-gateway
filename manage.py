@@ -2,6 +2,10 @@
 import os
 import sys
 
+# if we're not in ~~the matrix~~ docker, go ahead and drop us into docker.
+if not os.path.exists("/.dockerenv"):
+    os.system("docker-compose exec auth_gateway " + ' '.join(sys.argv))
+    sys.exit()
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "auth_gateway.settings")
     try:
