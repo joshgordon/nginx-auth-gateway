@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['10.3.12.79', 'localhost', 'auth-gateway.bluesmoke.network', '*']
 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 
 # Application definition
 
@@ -48,7 +50,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_ssl_auth.SSLClientAuthMiddleware',
 ]
+
+AUTHENTICATION_BACKENDS = ('django_ssl_auth.SSLClientAuthBackend', )
+
 
 ROOT_URLCONF = 'auth_gateway.urls'
 
@@ -125,3 +131,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = './static'
+
+
+USER_DATA_FN = 'auth.get_user'
+AUTOCREATE_VALID_SSL_USERS = True
+LOGIN_URL='/admin/login/'
+LOGIN_REDIRECT_URL='/admin'
