@@ -1,14 +1,11 @@
-FROM python:3.4
+FROM python:3-alpine
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-        postgresql-client \
-    && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache postgresql-client
 
 WORKDIR /usr/src/app
 COPY requirements.txt ./
-RUN pip install -r requirements.txt
+RUN apk add --no-cache -t .devtools postgresql-dev gcc python3-dev musl-dev  && pip install -r requirements.txt && apk del --no-cache .devtools
 COPY . .
 
 EXPOSE 8000
-CMD ["bash", "./startup.sh"]
+CMD ["sh", "./startup.sh"]
