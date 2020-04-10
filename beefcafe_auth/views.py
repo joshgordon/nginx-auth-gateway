@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
+import base64
 
 
 from .models import *
@@ -26,6 +27,7 @@ def auth_check(request):
         response['first'] = cert.user.first
         response['last'] = cert.user.last
         response['username'] = cert.user.username
+        response['auth_b64'] = base64.b64encode((cert.user.username + ":").encode("UTF-8")).decode("UTF-8")
         return response
     else:
         raise PermissionDenied
