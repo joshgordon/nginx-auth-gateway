@@ -3,6 +3,7 @@ from django.db import models
 # A single site (i.e. gogs.joshgordon.us) mostly just so I can limit stuff based on site.
 class Site(models.Model):
     fqdn = models.CharField(max_length=100)
+    allow_unauthorized = models.BooleanField(default=False)
 
     def __str__(self):
         return self.fqdn

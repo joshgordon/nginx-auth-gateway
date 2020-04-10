@@ -1,4 +1,4 @@
 django
-psycopg2
+psycopg2-binary
 gunicorn
 django-ssl-auth
